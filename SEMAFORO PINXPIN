@@ -1,1 +1,38 @@
+/*
+ * File:   Semaforo simple PIN a PIN
+ * Author: Diego A. Ferrua Huivin
+ *
+ * Algun dia del 2019
+ */
 
+
+#include <xc.h>
+#include "Configuracion.h"
+#include "pic18f4550.h"//Para usar las funciones del DATASHEET
+
+void InitPort(){ //Programa externo que sera llamado en el "main" sirve para definir los pines que usaremos
+    ADCON1bits.PCFG = 0x0F;//Define los pines 1 dgital 0 analog pag260
+    LATA=0;
+    /*--TRIS NOS SIRVE PARA DEFINIR LOS PINES COMO ENTRADAS O SALIDAS--*/
+    TRISAbits.RA1=0; //VERDE PORT = SALIDA 0 , 1 ENTRADA
+    TRISAbits.RA2=0; //AMARILLO PORT = SALIDA 0 , 1 ENTRADA
+    TRISAbits.RA3=0; //ROJO PORT = SALIDA 0 , 1 ENTRADA
+}
+
+void main(void) { //Programa principal "main"
+    InitPort(); //sentencia para llamar "InitPort"
+    while(1){
+        /*-- VERDE----*/
+        PORTAbits.RA1 = 1; // PORT LO USAMOS PARA MANDAR UN 0 O 1 A LA SALIDA
+        __delay_ms(3000);  //Nos da tiempo de espera de la memoria      
+        PORTAbits.RA1 = 0; // ESTRUCTURA "PORTA" PUERTO A - "bits" define solo un pin(bit) . "RA1" Pin A1 
+        /*--AMARILLO--*/
+        PORTAbits.RA2 = 1;        
+        __delay_ms(1000); 
+        PORTAbits.RA2 = 0;
+        /*--ROJO---*/
+        PORTAbits.RA3 = 1;
+        __delay_ms(3000);
+        PORTAbits.RA3 = 0;        
+    }
+}
