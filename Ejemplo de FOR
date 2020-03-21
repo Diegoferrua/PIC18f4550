@@ -1,0 +1,35 @@
+/*
+ * File:   EJEMPLO FOR
+ * Author: Diego A. Ferrua Huivin
+ *
+ * Algun dia del 2019
+ */
+
+
+#include <xc.h>
+#include "configuracion.h"
+#include "pic18f4550.h"//Para usar las funciones del DATASHEET
+
+void InitPort(){
+    ADCON1bits.PCFG = 0x0F;//Define los pines 1 dgital 0 analog pag260
+    LATA=0;
+    TRISA= 0x00; //Define los pines 1 Entrada 0 salida 
+            
+}
+
+void main(void) {
+    InitPort();
+    int i=0;
+    while(1){
+        for(i=10;i<=50;i++){ //Cuenta 40 veces 
+        PORTAbits.RA1=1;
+        __delay_ms(100);
+        PORTAbits.RA1=0;        
+        __delay_ms(100);
+        i=i+1;
+        } 
+        PORTAbits.RA1=0;//AL finalizar la cuenta mantiene apagado el LED 1seg
+    __delay_ms(1000);        
+
+    }
+}
